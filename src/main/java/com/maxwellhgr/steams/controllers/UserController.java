@@ -1,6 +1,6 @@
 package com.maxwellhgr.steams.controllers;
 
-import com.maxwellhgr.steams.dto.UserDTO;
+import com.maxwellhgr.steams.entities.User;
 import com.maxwellhgr.steams.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<UserDTO> getUser(HttpServletRequest request) {
+    public ResponseEntity<User> getUser(HttpServletRequest request) {
         return ResponseEntity.ok().body(userService.profile(request));
     }
 }

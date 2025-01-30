@@ -1,8 +1,9 @@
 package com.maxwellhgr.steams.controllers;
 
 import com.maxwellhgr.steams.dto.ResponseDTO;
-import com.maxwellhgr.steams.dto.UserDTO;
+import com.maxwellhgr.steams.entities.User;
 import com.maxwellhgr.steams.infra.security.TokenService;
+import com.maxwellhgr.steams.services.SteamService;
 import com.maxwellhgr.steams.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,13 @@ public class AuthController {
 
     private final UserService userService;
     private final TokenService tokenService;
+    private final SteamService steamService;
 
     @Autowired
-    public AuthController(UserService userService, TokenService tokenService) {
+    public AuthController(UserService userService, TokenService tokenService, SteamService steamService) {
         this.userService = userService;
         this.tokenService = tokenService;
+        this.steamService = steamService;
     }
 
     @GetMapping
@@ -66,13 +69,10 @@ public class AuthController {
             }
 
             if (steamId != null) {
-                UserDTO user = userService.find(steamId);
-                if (user == null) {
-                   user = userService.create(steamId);
-                }
+                steamService.saveSteamData(steamId);
 
-                String token = this.tokenService.generateToken(user);
-                return ResponseEntity.ok().body(new ResponseDTO(user.id(), token));
+                String token = this.tokenService.generateToken(steamId);
+                return ResponseEntity.ok().body(new ResponseDTO(steamId, token));
             }
         }
 
