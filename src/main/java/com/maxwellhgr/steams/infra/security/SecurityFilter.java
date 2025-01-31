@@ -34,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        var token = this.recoverToken(request);
+        var token = tokenService.recoverToken(request);
         var id = tokenService.validateToken(token);
 
         if(id != null) {
@@ -48,19 +48,4 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // utils functions
-    private String recoverToken(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("Missing or malformed Authorization header");
-            return null;
-        }
-        return authHeader.replace("Bearer ", "");
-    }
-
-    public String recoverIdFromRequest(HttpServletRequest request) {
-        var token = recoverToken(request);
-        if(token == null) return null;
-        return tokenService.validateToken(token);
-    }
 }

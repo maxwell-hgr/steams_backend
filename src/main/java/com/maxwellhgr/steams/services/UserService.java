@@ -1,30 +1,28 @@
 package com.maxwellhgr.steams.services;
 
 import com.maxwellhgr.steams.dto.UserDTO;
-import com.maxwellhgr.steams.entities.Game;
 import com.maxwellhgr.steams.entities.User;
 import com.maxwellhgr.steams.infra.security.SecurityFilter;
+import com.maxwellhgr.steams.infra.security.TokenService;
 import com.maxwellhgr.steams.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final SecurityFilter securityFilter;
+    private final TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, SecurityFilter securityFilter) {
+    public UserService(UserRepository userRepository, TokenService tokenService) {
         this.userRepository = userRepository;
-        this.securityFilter = securityFilter;
+        this.tokenService = tokenService;
     }
 
     public User profile(HttpServletRequest request) {
-        String id = securityFilter.recoverIdFromRequest(request);
+        String id = tokenService.recoverIdFromRequest(request);
         return find(id);
     }
 

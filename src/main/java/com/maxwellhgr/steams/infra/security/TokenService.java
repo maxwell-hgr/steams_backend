@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +49,20 @@ public class TokenService {
 
     private Instant generateExpirationTime() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    public String recoverToken(HttpServletRequest request) {
+        var authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("Missing or malformed Authorization header");
+            return null;
+        }
+        return authHeader.replace("Bearer ", "");
+    }
+
+    public String recoverIdFromRequest(HttpServletRequest request) {
+        var token = recoverToken(request);
+        if(token == null) return null;
+        return validateToken(token);
     }
 }

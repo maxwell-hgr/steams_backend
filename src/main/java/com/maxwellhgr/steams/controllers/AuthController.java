@@ -69,7 +69,7 @@ public class AuthController {
             }
 
             if (steamId != null) {
-                steamService.saveSteamData(steamId);
+                steamService.steamUser(steamId);
 
                 String token = this.tokenService.generateToken(steamId);
                 return ResponseEntity.ok().body(new ResponseDTO(steamId, token));

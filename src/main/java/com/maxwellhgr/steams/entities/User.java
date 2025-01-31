@@ -1,5 +1,6 @@
 package com.maxwellhgr.steams.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,19 +30,11 @@ public class User implements Serializable {
 
     @ManyToMany
     @JoinTable(
-            name = "tb_user_friends",
+            name = "tb_user_lobby",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
+            inverseJoinColumns = @JoinColumn(name = "lobby_id")
     )
-    private Set<User> friends = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "tb_user_games",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "app_id")
-    )
-    private Set<Game> games = new HashSet<>();
+    private final Set<Lobby> lobbies = new HashSet<>();
 
 
 }

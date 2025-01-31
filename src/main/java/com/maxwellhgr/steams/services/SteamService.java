@@ -2,9 +2,8 @@ package com.maxwellhgr.steams.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maxwellhgr.steams.entities.Game;
+import com.maxwellhgr.steams.dto.GameDTO;
 import com.maxwellhgr.steams.entities.User;
-import com.maxwellhgr.steams.repositories.GameRespository;
 import com.maxwellhgr.steams.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,26 +20,14 @@ public class SteamService {
     private String key;
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
-    private final GameRespository gameRepository;
 
     @Autowired
-    public SteamService(RestTemplate restTemplate, UserRepository userRepository, GameRespository gameRepository) {
+    public SteamService(RestTemplate restTemplate, UserRepository userRepository) {
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
-        this.gameRepository = gameRepository;
     }
 
-    public void saveSteamData(String id) {
-        User user = steamUser(id);
-        Set<Game> games = getOwnedGames(id);
-        Set<User> friends = getFriendsFromId(id);
-
-        user.setGames(games);
-        user.setFriends(friends);
-        userRepository.save(user);
-    }
-
-    public User steamUser(String id) {
+    public void steamUser(String id) {
         String url = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + key + "&steamids=" + id;
         String steamData = restTemplate.getForObject(url, String.class);
 
@@ -54,8 +41,7 @@ public class SteamService {
             user.setUsername(playerNode.path("personaname").asText());
             user.setAvatar(playerNode.path("avatarfull").asText());
 
-            return user;
-
+            userRepository.save(user);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -91,26 +77,22 @@ public class SteamService {
         return friends;
     }
 
-    public Set<Game> getOwnedGames(String id) {
+    public Set<GameDTO> getOwnedGames(String id) {
         String url = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + key + "&steamid=" + id + "&include_appinfo=1&include_played_free_games=1";
         String gamesData = restTemplate.getForObject(url, String.class);
 
         ObjectMapper mapper = new ObjectMapper();
-        Set<Game> gamesList = new HashSet<>();
+        Set<GameDTO> gamesList = new HashSet<>();
         try {
             JsonNode rootNode = mapper.readTree(gamesData);
             JsonNode gamesNode = rootNode.path("response").path("games");
 
             for (JsonNode gameNode : gamesNode) {
-                Game game = new Game();
                 String appId = gameNode.path("appid").asText();
-                game.setAppId(appId);
+                String name = gameNode.path("name").asText();
+                String banner = "https://cdn.cloudflare.steamstatic.com/steam/apps/" + appId + "/header.jpg";
 
-
-                // this cant happen
-                gameRepository.save(game);
-
-                gamesList.add(game);
+                gamesList.add(new GameDTO(appId, name, banner));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
