@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @GetMapping
-    public ResponseEntity<Void> steamLogin(HttpServletRequest request) {
+    public ResponseEntity<Void> steamLogin() {
         String openidLoginEndpoint = "https://steamcommunity.com/openid/login";
         String returnToUrl = applicationUrl + "/login/callback";
 

@@ -30,10 +30,6 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    private UserDTO userToUserDTO(User user) {
-        return new UserDTO(user.getId(), user.getUsername(), user.getAvatar());
-    }
-
     public String steamId(String claimedId) {
         if (claimedId != null && claimedId.contains("https://steamcommunity.com/openid/id/")) {
             return claimedId.substring(claimedId.lastIndexOf("/") + 1);

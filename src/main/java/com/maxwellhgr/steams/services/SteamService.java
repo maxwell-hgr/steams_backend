@@ -92,7 +92,7 @@ public class SteamService {
                 String name = gameNode.path("name").asText();
                 String banner = "https://cdn.cloudflare.steamstatic.com/steam/apps/" + appId + "/header.jpg";
 
-                gamesList.add(new GameDTO(appId, name, banner));
+                gamesList.add(new GameDTO(appId, banner, name));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
