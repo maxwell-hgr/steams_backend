@@ -1,21 +1,21 @@
 # Steam API Integration - RESTful API
 
-## 📌 Sobre o Projeto
+## Sobre o Projeto
 Esta API RESTful, desenvolvida em **Java Spring Boot**, permite consultar a **API da Steam** para obter dados sobre jogos, amigos e informações gerais do perfil do usuário. Além disso, utiliza o **OpenID da Steam** para autenticação.
 
-## 🚀 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 - **Java 21**
 - **Spring Boot**
 - **Spring Security**
 - **OAuth/OpenID Connect (Steam OpenID)**
 
-## 🔥 Como Funciona
+## Como Funciona
 1. O usuário acessa `/login` para autenticar via **OpenID da Steam**.
 2. Após a autenticação, ele pode consultar endpoints protegidos para obter informações do seu perfil, jogos e amigos.
 
-## ⚙️ Endpoints Disponíveis
+## Endpoints Disponíveis
 
-### 🔑 1. Autenticação
+### 1. Autenticação
 #### `POST /login`
 Realiza login via **Steam OpenID**, redirecionando o usuário para a autenticação da Steam.
 
@@ -100,8 +100,3 @@ Retorna a lista de amigos do usuário autenticado.
    ```
 4. Acesse `http://localhost:8080`
 
-## 📜 Licença
-Este projeto é distribuído sob a licença MIT.
-
----
-🚀 **Desenvolvido por Maxwell H. S. Souza**
