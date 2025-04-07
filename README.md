@@ -27,7 +27,7 @@ Realiza login via **Steam OpenID**, redirecionando o usuário para a autenticaç
 }
 ```
 
-### 👤 2. Perfil do Usuário
+### 2. Perfil do Usuário
 #### `GET /user/profile`
 Retorna informações sobre o usuário autenticado.
 
@@ -41,7 +41,7 @@ Retorna informações sobre o usuário autenticado.
 }
 ```
 
-### 🎮 3. Lista de Jogos
+### 3. Lista de Jogos
 #### `GET /user/games`
 Retorna a lista de jogos do usuário autenticado.
 
@@ -59,7 +59,7 @@ Retorna a lista de jogos do usuário autenticado.
 }
 ```
 
-### 👫 4. Lista de Amigos
+### 4. Lista de Amigos
 #### `GET /user/friends`
 Retorna a lista de amigos do usuário autenticado.
 
@@ -83,7 +83,7 @@ Retorna a lista de amigos do usuário autenticado.
 }
 ```
 
-## 🔧 Configuração e Execução
+## Configuração e Execução
 1. Clone o repositório:
    ```sh
    git clone https://github.com/seu-usuario/seu-repositorio.git
