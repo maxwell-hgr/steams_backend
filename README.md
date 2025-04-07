@@ -9,11 +9,11 @@ Esta API RESTful, desenvolvida em **Java Spring Boot**, permite consultar a **AP
 - **Spring Security**
 - **OAuth/OpenID Connect (Steam OpenID)**
 
-## Como Funciona
-1. O usuário acessa `/login` para autenticar via **OpenID da Steam**.
-2. Após a autenticação, ele pode consultar endpoints protegidos para obter informações do seu perfil, jogos e amigos.
+## Funcionalidades
+1. **/login** para autenticar via **OpenID da Steam**.
+2. **Autenticado** o usuário pode consultar seu perfil steam, jogos e amigos.
 
-## Endpoints Disponíveis
+## Endpoints
 
 ### 1. Autenticação
 #### `POST /login`
