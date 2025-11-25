@@ -2,9 +2,11 @@ package com.maxwellhgr.steams.controllers;
 
 import com.maxwellhgr.steams.dto.GameDTO;
 import com.maxwellhgr.steams.entities.User;
+import com.maxwellhgr.steams.infra.security.SecurityConfig;
 import com.maxwellhgr.steams.infra.security.TokenService;
 import com.maxwellhgr.steams.services.SteamService;
 import com.maxwellhgr.steams.services.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
+@SecurityRequirement(name = SecurityConfig.SECURITY)
 public class UserController {
 
     private final UserService userService;

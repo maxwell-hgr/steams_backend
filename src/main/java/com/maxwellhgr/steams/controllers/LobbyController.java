@@ -2,7 +2,9 @@ package com.maxwellhgr.steams.controllers;
 
 import com.maxwellhgr.steams.dto.LobbyDTO;
 import com.maxwellhgr.steams.entities.Lobby;
+import com.maxwellhgr.steams.infra.security.SecurityConfig;
 import com.maxwellhgr.steams.services.LobbyService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/lobby")
+@SecurityRequirement(name = SecurityConfig.SECURITY)
 public class LobbyController {
 
     private final LobbyService lobbyService;
@@ -36,7 +39,6 @@ public class LobbyController {
     public ResponseEntity<Set<Lobby>> getLobbyByUserId(@PathVariable String id) {
         return ResponseEntity.ok().body(lobbyService.getAllByOwner(id));
     }
-
 
     @PostMapping
     public ResponseEntity<String> createLobby(@RequestBody LobbyDTO lobbyDTO) {
